@@ -21,8 +21,8 @@ __z = 3
 a = A()
 ```
 ¿Cuáles de los siguientes nombres existen como atributos accesibles directamente desde
-a?
-A) a.x
-B) a._y
-C) a.__z
-D) a._A__z
+a?  
+A) a.x  
+B) a._y  
+C) a.__z  
+D) a._A__z  
