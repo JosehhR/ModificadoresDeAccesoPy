@@ -23,4 +23,6 @@ class Cuenta:
 c=Cuenta(0)
 c.saldo = 15
 print (c.saldo)
+c.saldo = -15
+print (c.saldo)
         

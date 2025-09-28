@@ -268,6 +268,10 @@ Para comenzar, la encapsulacion en python cambia bastante, pues a diferencia de 
 #### • Validacion:
 Con el tema de la validacion, encontramos que es una especie de condicion para asegurarnos de que en el set unicamente se ingresen valores validos dependiendo nuestros requerimientos, como una forma de limitar nuestros atributos, su sintaxis es mas parecida a la de java, en esto si son similares, cambiando la forma de invocar los errores unicamente.
 
+---
+
+La realizacion de todos estos ejercicios se encuentran en el archivo **B. Encapsulacion.py**
+
 - - -
 
 ### 11) Completar propiedad con validación
@@ -286,3 +290,40 @@ class Cuenta:
     # Validar no-negativo
     ______
 ````
+<br><br>
+#### ✅ Respuesta:  
+````python
+class Cuenta:
+    def __init__(self, saldo):
+        self._saldo = 0
+        self.saldo = saldo
+    @property
+    def saldo(self):
+        #devolver el valor de saldo
+        return self._saldo
+    
+    @saldo.setter
+    def saldo(self, value):
+    # Validar no-negativo
+        if value < 0:
+            raise ValueError("El saldo no puede ser negativo")
+        else:
+            self._saldo=value
+
+c=Cuenta(0)
+c.saldo = 15
+print (c.saldo)
+
+````
+En el getter que se inicia con el "@property" unicamente retorno el valor de "_saldo" y en el setter, comprobamos si el valor recibido (value) es menor a 0, y si eso es asi hacemos que el programa suelte un error, posteriormente instanciamos el objeto y realizamos los dos casos de uso
+````
+15
+Traceback (most recent call last):
+    c.saldo = -15
+    ^^^^^^^
+    raise ValueError("El saldo no puede ser negativo")
+ValueError: El saldo no puede ser negativo
+````
+y como podemos ver efectivamente, en el primer caso, escribe el valor de 15 que es un numero valido, pero si trata de escribir el valor de -15 nos lanza un error
+
+---
