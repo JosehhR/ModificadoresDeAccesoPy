@@ -58,5 +58,24 @@ class Usuario:
   
 user=Usuario("Jose")
 print(user.nombre)
-user2=Usuario(15)
-print(user2.nombre)
+#user2=Usuario(15)
+#print(user2.nombre)
+
+#14) Expón una vista de solo lectura de una lista interna.
+
+class Registro:
+    def __init__(self):
+        self.__items = []
+    def add(self, x):
+        self.__items.append(x)
+    # Crea una propiedad 'items' que retorne una tupla inmutable con el contenido
+    @property
+    def items(self):
+        return tuple(self.__items)
+    
+r=Registro()
+r.add(1)
+r.add(2)
+r.add(3)
+print(r.items)
+

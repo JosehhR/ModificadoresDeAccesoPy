@@ -6,7 +6,7 @@ Este repositorio muestra la solución al taller pre-parcial planteado sobre modi
 
 ---
 
-## 🅰️ Conceptos y lectura de codigo
+## A. Conceptos y lectura de codigo
 
 ### 1). Selección múltiple
 
@@ -186,7 +186,7 @@ s = S()
 Escribe la línea solicitada.
 <br><br>
 #### ✅ Respuesta:  
-El desarrollo de este punto se encuentra en el archivo "Punto9.py"
+El desarrollo de este punto se encuentra en el archivo "A.ConceptosyLectura.py"
 #### Caso 1
 ````python
 print(s.__data)
@@ -226,7 +226,7 @@ Segun la documentacion de python sobre dir, este devuelve una lista de cadenas c
 
 ---
 
-## 🅱️ Encapsulación con @property y validación
+## B. Encapsulación con @property y validación
 Esta parte trata temas nuevos como lo son la encapsulacion utilizando "@property", y la validación asi que antes que todo investigué un poco de estos y el como cambian la encapsulación que normalmente se ve en java, aprendiendo lo siguiente:  
 
 #### Java  
@@ -416,3 +416,92 @@ Como se puede ver en la salida de consola, el primer nombre lo imprime de manera
 
 ---
 
+### 14) Encapsulación de colección
+
+Expón una vista de solo lectura de una lista interna.
+
+````python
+class Registro:
+  def __init__(self):
+    self.__items = []
+  def add(self, x):
+    self.__items.append(x)
+  # Crea una propiedad 'items' que retorne una tupla inmutable con el contenido
+````
+
+#### ✅ Respuesta:  
+
+````python
+class Registro:
+    def __init__(self):
+        self.__items = []
+    def add(self, x):
+        self.__items.append(x)
+    # Crea una propiedad 'items' que retorne una tupla inmutable con el contenido
+    @property
+    def items(self):
+        return tuple(self.__items)
+    
+r=Registro()
+r.add(1)
+r.add(2)
+r.add(3)
+print(r.items)
+````
+
+Como se puede ver, se agrega el getter con **property** que retorna unicamente una tupla inmutable, como ejemplo creamos un objeto **r**, añadimos los numeros del 1 al 3 y utilizamos nuestro getter para imprimir, de esa manera, la salida por consola es:
+
+````
+(1, 2, 3)
+````
+
+---
+
+## C. Diseño y refactor
+### 15) Refactor a encapsulación
+Refactoriza para evitar acceso directo al atributo y validar que velocidad sea entre 0 y 200.
+
+````python
+class Motor:
+    def __init__(self, velocidad):
+        self.velocidad = velocidad # refactor aquí
+````
+Escribe la versión con @property.
+
+#### ✅ Respuesta:  
+````python
+class Motor:
+    def __init__(self, velocidad):
+        self._velocidad = 0
+        self.velocidad = velocidad # refactor aquí
+    @property
+    def velocidad(self):
+        return self._velocidad
+    @velocidad.setter
+    def velocidad(self, newVelocidad):
+        if(newVelocidad>200 or newVelocidad<0):
+            raise ValueError("La propiedad velocidad debe estar entre 0 y 200!")
+        else:
+            self._velocidad=newVelocidad
+
+m=Motor(15)
+print(f"velocidad inicial: {m.velocidad}")
+m.velocidad = 30
+print(f"segunda velocidad: {m.velocidad}")
+m.velocidad = 300
+print(f"tercera velocidad: {m.velocidad}")
+````
+
+Como se puede ver se emplea **property** para crear los getter y el setter con la validacion, y se hacen 3 comprobaciones, el constructor con una velocidad inical, una modificacion a la velocidad a un numero dentro del rango y por ultimo una comprobacion fuera de rango esperando el error en consola, con lo que la salida obtenida es:
+
+````
+velocidad inicial: 15
+segunda velocidad: 30
+Traceback (most recent call last):
+  File "e:\Proyectos\2025\UNAL\POO\ModificadoresDeAccesoPy\B. Encapsulacion.py", line 102, in <module>
+    m.velocidad = 300
+    ^^^^^^^^^^^
+  File "e:\Proyectos\2025\UNAL\POO\ModificadoresDeAccesoPy\B. Encapsulacion.py", line 94, in velocidad
+    raise ValueError("La propiedad velocidad debe estar entre 0 y 200!")
+ValueError: La propiedad velocidad debe estar entre 0 y 200!
+````
