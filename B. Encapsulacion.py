@@ -39,4 +39,24 @@ class Termometro:
 t=Termometro(30)
 print(f"la temperatura es: {t.temperatura_f} grados fahrenheit")
 
+# 13) Haz que nombre sea siempre str. Si asignan algo que no sea str, lanza TypeError.
 
+class Usuario:
+  def __init__(self, nombre):
+    self._nombre=""
+    self.nombre = nombre
+  # Implementa property para nombre
+  @property
+  def nombre(self):
+      return self._nombre
+  @nombre.setter
+  def nombre(self, n):
+      if(type(n)==str):
+        self._nombre=n
+      else:
+        raise TypeError("Nombre debe contener de manera obligatoria un tipo de dato str")
+  
+user=Usuario("Jose")
+print(user.nombre)
+user2=Usuario(15)
+print(user2.nombre)

@@ -339,7 +339,7 @@ temperatura_c.
     # Define aquí la propiedad temperatura_f: F = C * 9/5 + 32
 ````
 Escribe la propiedad.
-<br><br>
+<br>
 #### ✅ Respuesta:  
 
 ````python
@@ -362,3 +362,54 @@ la temperatura es: 86.0 grados fahrenheit
 ````
 
 ---
+
+### 13) Invariante con tipo
+
+Haz que nombre sea siempre str. Si asignan algo que no sea str, lanza TypeError.
+
+````python
+class Usuario:
+  def __init__(self, nombre):
+    self.nombre = nombre
+  # Implementa property para nombre
+````
+<br>
+#### ✅ Respuesta:  
+ ````python
+# 13) Haz que nombre sea siempre str. Si asignan algo que no sea str, lanza TypeError.
+
+class Usuario:
+  def __init__(self, nombre):
+    self._nombre=""
+    self.nombre = nombre
+  # Implementa property para nombre
+  @property
+  def nombre(self):
+      return self._nombre
+  @nombre.setter
+  def nombre(self, n):
+      if(type(n)==str):
+        self._nombre=n
+      else:
+        raise TypeError("Nombre debe contener de manera obligatoria un tipo de dato str")
+  
+user=Usuario("Jose")
+print(user.nombre)
+user2=Usuario(15)
+print(user2.nombre)
+````
+Primero implemente un "@property" para el getter y posteriormente cree el setter de este, donde valido que el tipo de dato recibido sea siempre del tipo **string**, si esto no se cumple lanza el **TypeError** en consola, creo dos usuarios e imprimo sus nombres.
+
+````
+Jose
+Traceback (most recent call last):
+  File "e:\Proyectos\2025\UNAL\POO\ModificadoresDeAccesoPy\B. Encapsulacion.py", line 61, in <module>
+    user2=Usuario(15)
+  File "e:\Proyectos\2025\UNAL\POO\ModificadoresDeAccesoPy\B. Encapsulacion.py", line 47, in __init__
+    self.nombre = nombre
+    ^^^^^^^^^^^
+  File "e:\Proyectos\2025\UNAL\POO\ModificadoresDeAccesoPy\B. Encapsulacion.py", line 57, in nombre
+    raise TypeError("Nombre debe contener de manera obligatoria un tipo de dato str")
+TypeError: Nombre debe contener de manera obligatoria un tipo de dato str
+````
+Como se puede ver en la salida de consola, el primer nombre lo imprime de manera correcta, sin embargo, el segundo usuario colapsa el programa al momento de crearlo y nos lanza un **TypeError**, explicando que la propiedad nombre unicamente admite tipos de dato str.
