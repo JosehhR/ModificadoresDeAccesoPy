@@ -313,6 +313,8 @@ class Cuenta:
 c=Cuenta(0)
 c.saldo = 15
 print (c.saldo)
+c.saldo = -15
+print (c.saldo)
 
 ````
 En el getter que se inicia con el "@property" unicamente retorno el valor de "_saldo" y en el setter, comprobamos si el valor recibido (value) es menor a 0, y si eso es asi hacemos que el programa suelte un error, posteriormente instanciamos el objeto y realizamos los dos casos de uso
