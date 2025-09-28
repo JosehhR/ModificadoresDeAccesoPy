@@ -498,10 +498,10 @@ Como se puede ver se emplea **property** para crear los getter y el setter con l
 velocidad inicial: 15
 segunda velocidad: 30
 Traceback (most recent call last):
-  File "e:\Proyectos\2025\UNAL\POO\ModificadoresDeAccesoPy\B. Encapsulacion.py", line 102, in <module>
+  File "e:\Proyectos\2025\UNAL\POO\ModificadoresDeAccesoPy\C.DiseñoyRefactorizacion.py", line 25, in <module>
     m.velocidad = 300
     ^^^^^^^^^^^
-  File "e:\Proyectos\2025\UNAL\POO\ModificadoresDeAccesoPy\B. Encapsulacion.py", line 94, in velocidad
+  File "e:\Proyectos\2025\UNAL\POO\ModificadoresDeAccesoPy\C.DiseñoyRefactorizacion.py", line 17, in velocidad
     raise ValueError("La propiedad velocidad debe estar entre 0 y 200!")
 ValueError: La propiedad velocidad debe estar entre 0 y 200!
 ````
