@@ -180,15 +180,30 @@ class S:
     return len(self.__data)
 
 s = S()
-# Accede a __data (solo para comprobar), sin modificar el código de la
-clase:
-# Escribe una línea que obtenga la lista usando name mangling y la
-imprima.
+# Accede a __data (solo para comprobar), sin modificar el código de la clase:
+# Escribe una línea que obtenga la lista usando name mangling y la imprima.
 ````
 Escribe la línea solicitada.
 <br><br>
 #### ✅ Respuesta:  
-El resultado de esto, esta en el archivo "Punto9.py"
-
+El desarrollo de este punto se encuentra en el archivo "Punto9.py"
+#### Caso 1
+````python
+print(s.__data)
+````
+````
+print(s.__data)
+          ^^^^^^^^
+AttributeError: 'S' object has no attribute '__data'. Did you mean: '_S__data'?
+````
+En el primer caso, se obtiene un error, pues debido al name mangling no se puede acceder directamente a "__data" y el interprete sugiere cambiar a "_S__data"
+#### Caso 2
+````python
+print(s._S__data)
+````
+````
+[1, 2]
+````
+Por otro lado, en el segundo caso, obtenemos el print de los elementos de __data al acoplarnos al name mangling
 
 
