@@ -373,7 +373,6 @@ class Usuario:
     self.nombre = nombre
   # Implementa property para nombre
 ````
-<br><br>
 
 #### ✅ Respuesta:  
  ````python
@@ -414,3 +413,6 @@ Traceback (most recent call last):
 TypeError: Nombre debe contener de manera obligatoria un tipo de dato str
 ````
 Como se puede ver en la salida de consola, el primer nombre lo imprime de manera correcta, sin embargo, el segundo usuario colapsa el programa al momento de crearlo y nos lanza un **TypeError**, explicando que la propiedad nombre unicamente admite tipos de dato str.
+
+---
+
