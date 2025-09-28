@@ -23,6 +23,20 @@ class Cuenta:
 c=Cuenta(0)
 c.saldo = 15
 print (c.saldo)
-c.saldo = -15
-print (c.saldo)
-        
+#c.saldo = -15
+#print (c.saldo)
+
+# 12) Convierte temperatura_f en un atributo de solo lectura que se calcula desde temperatura_c.
+
+class Termometro:
+    def __init__(self, temperatura_c):
+        self._c = float(temperatura_c)
+    # Define aquí la propiedad temperatura_f: F = C * 9/5 + 32
+    @property
+    def temperatura_f(self):
+        return (self._c*9/5+32)
+    
+t=Termometro(30)
+print(f"la temperatura es: {t.temperatura_f} grados fahrenheit")
+
+

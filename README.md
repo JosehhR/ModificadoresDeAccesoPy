@@ -290,7 +290,6 @@ class Cuenta:
     # Validar no-negativo
     ______
 ````
-<br><br>
 #### ✅ Respuesta:  
 ````python
 class Cuenta:
@@ -327,5 +326,39 @@ Traceback (most recent call last):
 ValueError: El saldo no puede ser negativo
 ````
 y como podemos ver efectivamente, en el primer caso, escribe el valor de 15 que es un numero valido, pero si trata de escribir el valor de -15 nos lanza un error
+
+---
+
+### 12) Propiedad de solo lectura
+Convierte temperatura_f en un atributo de solo lectura que se calcula desde
+temperatura_c.
+ ````python
+ class Termometro:
+    def __init__(self, temperatura_c):
+        self._c = float(temperatura_c)
+    # Define aquí la propiedad temperatura_f: F = C * 9/5 + 32
+````
+Escribe la propiedad.
+<br><br>
+#### ✅ Respuesta:  
+
+````python
+class Termometro:
+    def __init__(self, temperatura_c):
+        self._c = float(temperatura_c)
+    # Define aquí la propiedad temperatura_f: F = C * 9/5 + 32
+    @property
+    def temperatura_f(self):
+        return (self._c*9/5+32)
+    
+t=Termometro(30)
+print(f"la temperatura es: {t.temperatura_f} grados fahrenheit")
+````
+
+Empleamos "@property" para crear el getter de la propiedad **temperatura_f** y como no requerimos un setter, unicamente retornamos el calculo de la temperatura en grados fahrenheit, el resultado de esto en la salida del codigo es:
+
+````
+la temperatura es: 86.0 grados fahrenheit
+````
 
 ---
