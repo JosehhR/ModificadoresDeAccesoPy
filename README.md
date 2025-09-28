@@ -69,11 +69,11 @@ False True
 
 ````python
 class Base:
-def __init__(self):
-self._token = "abc"
+  def __init__(self):
+    self._token = "abc"
 class Sub(Base):
-def reveal(self):
-return self._token
+  def reveal(self):
+    return self._token
 print(Sub().reveal())
 ````
 
@@ -88,14 +88,14 @@ Se imprime el contenido de **_token** es decir **"abc"**, no hay error de acceso
 
 ````python
 class Base:
-def __init__(self):
-self.__v = 1
+  def __init__(self):
+    self.__v = 1
 class Sub(Base):
-def __init__(self):
-super().__init__()
-self.__v = 2
-def show(self):
-return (self.__v, self._Base__v)
+  def __init__(self):
+    super().__init__()
+    self.__v = 2
+  def show(self):
+    return (self.__v, self._Base__v)
 print(Sub().show())
 ````
 
@@ -458,6 +458,9 @@ Como se puede ver, se agrega el getter con **property** que retorna unicamente u
 ---
 
 ## C. Diseño y refactor
+- - -
+La realizacion de todos estos ejercicios se encuentran en el archivo **C.DiseñoyRefactorizacion.py**
+- - -
 ### 15) Refactor a encapsulación
 Refactoriza para evitar acceso directo al atributo y validar que velocidad sea entre 0 y 200.
 
@@ -505,3 +508,147 @@ Traceback (most recent call last):
     raise ValueError("La propiedad velocidad debe estar entre 0 y 200!")
 ValueError: La propiedad velocidad debe estar entre 0 y 200!
 ````
+---
+
+### 16) Elección de convención 
+Explica con tus palabras cuándo usarías _atributo frente a __atributo en una API pública de una librería.
+
+#### ✅ Respuesta:  
+Yo reduciria el uso de __atributo unicamente a cuando necesite usar herencia pues necesito que no se mezclen atributos en sub clases, mientras que _atributo lo usaria en la mayoria de casos donde quiera señalar que es un atributo interno y no se debe acceder directamente a el.
+
+---
+
+### 17) Detección de fuga de encapsulación
+¿Qué problema hay aquí?
+````python
+class Buffer:
+  def __init__(self, data):
+    self._data = list(data)
+  def get_data(self):
+    return self._data
+````
+Propón una corrección.
+#### ✅ Respuesta:  
+El problema aca es que el getter de data esta regresando directamente _data, lo que haria que se pueda modificar sin pasar por el objeto de buffer una vez obtenido, lo ideal seria usar una tupla o un copy, pero al ser datos de solo lectura por ser un buffer, considero que lo mejor es devolver una tupla
+
+````python
+class Buffer:
+  def __init__(self, data):
+    self._data = list(data)
+  def get_data(self):
+    return tuple(self._data)
+````
+
+---
+### 18) Diseño con herencia y mangling
+¿Dónde fallará esto y cómo lo arreglas?
+
+````python
+class A:
+  def __init__(self):
+    self.__x = 1
+
+class B(A):
+  def get(self):
+    return self.__x
+````
+
+#### ✅ Respuesta:  
+El error esta en querer acceder al atributo **__x** de la super clase **A** en la subclase **B** pues este sufre name mangling y solo se puede acceder de la forma **_A__x**, es decir:
+
+````python
+class A:
+  def __init__(self):
+    self.__x = 1
+
+class B(A):
+  def get(self):
+    return self._A__x
+````
+
+---
+
+### 19) Composición y fachada
+
+Completa para exponer solo un método seguro de un objeto interno.
+
+````python
+class _Repositorio:
+  def __init__(self):
+    self._datos = {}
+  def guardar(self, k, v):
+    self._datos[k] = v
+  def _dump(self):
+    return dict(self._datos)
+class Servicio:
+  def __init__(self):
+    self.__repo = _Repositorio()
+# Expón un método 'guardar' que delegue en el repositorio,
+# pero NO expongas _dump ni __repo.
+````
+
+#### ✅ Respuesta:  
+````python
+class _Repositorio:
+  def __init__(self):
+    self._datos = {}
+  def guardar(self, k, v):
+    self._datos[k] = v
+  def _dump(self):
+    return dict(self._datos)
+class Servicio:
+  def __init__(self):
+    self.__repo = _Repositorio()
+# Expón un método 'guardar' que delegue en el repositorio,
+# pero NO expongas _dump ni __repo.
+  def guardar(self, k, v):
+    self.__repo.guardar(k, v)
+````
+crearia un metodo publico que unicamente invoque el metodo ya existente de la clase **_Repositorio** llamado **guardar** y le paso los mismos datos que pide inicialmente
+
+
+---
+
+### 20) Mini-kata
+
+Escribe una clase ContadorSeguro con:
+  • atributo “protegido” _n
+  • método inc() que suma 1
+  • propiedad n de solo lectura
+  • método “privado” __log() que imprima "tick" cuando se incrementa
+Muestra un uso básico con dos incrementos y la lectura final.
+
+#### ✅ Respuesta:  
+````python
+class ContadorSeguro:
+    def __init__(self):
+        self._n=0
+        pass
+    @property
+    def n(self):
+        return self._n
+    def __log(self):
+        print ("tick")
+        return
+    def inc(self):
+        self._n+=1
+        self.__log()
+
+cnt = ContadorSeguro()
+cnt.inc()
+print(f"Actualmente el contador está en: {cnt.n}")
+cnt.inc()
+print(f"Actualmente el contador está en: {cnt.n}")
+````
+Como se puede ver, se definio todo tal cual segun los requisitos, y la salida del codigo es:
+````
+tick
+Actualmente el contador está en: 1
+tick
+Actualmente el contador está en: 2
+````
+
+---
+
+## 🎯 Conclusiones
+Despues de realizar el taller, logre entender como funciona el encapsulamiento en **python**, y el como se diferencia del que ya conocia en lenguajes como **java** y **dart**, adicionalmente conoci conceptos que muy pocas veces utilizaba como la validacion, que normalmente manejaba desde antes de enviar a los objetos pero nunca a traves del setter, finalmente, aprendi cosas sobre el funcionamiento del interprete de python como el hecho de que al recibir informacion de un getter como listas asigna a la variable donde llega dicha informacion la misma ruta de acceso en el buffer que el atributo de lista inicial y por ello se usan tuplas que son inmutables o la funcion **.copy()** 
