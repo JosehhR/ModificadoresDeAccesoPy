@@ -373,7 +373,8 @@ class Usuario:
     self.nombre = nombre
   # Implementa property para nombre
 ````
-<br>
+<br><br>
+
 #### ✅ Respuesta:  
  ````python
 # 13) Haz que nombre sea siempre str. Si asignan algo que no sea str, lanza TypeError.
