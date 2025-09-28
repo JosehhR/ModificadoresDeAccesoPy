@@ -267,3 +267,22 @@ class Cuenta:
 Para comenzar, la encapsulacion en python cambia bastante, pues a diferencia de java donde los metodos de getter y setter son mas explicitos, en python nos valemos de "@property" para construir el getter y de "@<prop>.setter" para crear el setter, lo cual cambia un poco la sintaxis pero se puede seguir relacionando con lenguajes que ya conozco.  
 #### • Validacion:
 Con el tema de la validacion, encontramos que es una especie de condicion para asegurarnos de que en el set unicamente se ingresen valores validos dependiendo nuestros requerimientos, como una forma de limitar nuestros atributos, su sintaxis es mas parecida a la de java, en esto si son similares, cambiando la forma de invocar los errores unicamente.
+
+- - -
+
+### 11) Completar propiedad con validación
+Completa para que saldo nunca sea negativo.
+
+````python
+class Cuenta:
+  def __init__(self, saldo):
+    self._saldo = 0
+    self.saldo = saldo
+  @property
+  def saldo(self):
+    ______
+  @saldo.setter
+  def saldo(self, value):
+    # Validar no-negativo
+    ______
+````
