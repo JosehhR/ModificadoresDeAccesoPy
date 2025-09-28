@@ -206,4 +206,64 @@ print(s._S__data)
 ````
 Por otro lado, en el segundo caso, obtenemos el print de los elementos de __data al acoplarnos al name mangling
 
+---
 
+### 10) Comprensión de dir y mangling
+````python
+class D:
+  def __init__(self):
+    self.__a = 1
+    self._b = 2
+    self.c = 3
+d = D()
+names = [n for n in dir(d) if 'a' in n]
+print(names)
+````
+¿Cuál de estos nombres es más probable que aparezca en la lista: __a, _D__a o a? Explica.
+<br><br>
+#### ✅ Respuesta:  
+Segun la documentacion de python sobre dir, este devuelve una lista de cadenas con los nombres de atributos declarados, heredados y algunos especiales como __doc__ que heredan de la clase objeto, siguiendo esto, en el array names, se estan guardando los atributos almacenados en el "__dict__" del objeto que contienen una **"a"**, por lo que descartamos "_b" y "c" y como "__a" se transforma en "_D__a" por el mangling y cumple la condicion, de los definidos este será el unico de los que declaramos en el objeto que se muestre,  sin embargo y como se mencionó, se incluirán tambien algunos heredados de la clase objeto como "__hash__".
+
+---
+
+## 🅱️ Encapsulación con @property y validación
+Esta parte trata temas nuevos como lo son la encapsulacion utilizando "@property", y la validación asi que antes que todo investigué un poco de estos y el como cambian la encapsulación que normalmente se ve en java, aprendiendo lo siguiente:  
+
+#### Java  
+````java
+class Cuenta {
+    private double saldo;
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double s) {
+        if (s < 0) throw new IllegalArgumentException();
+        saldo = s;
+    }
+}
+````
+
+#### Python  
+````python
+class Cuenta:
+    def __init__(self, saldo):
+        self._saldo = 0
+        self.saldo = saldo  # Usa el setter
+
+    @property
+    def saldo(self):            # ← getter
+        return self._saldo
+
+    @saldo.setter
+    def saldo(self, value):     # ← setter
+        if value < 0:
+            raise ValueError("El saldo no puede ser negativo")
+        self._saldo = value
+````
+
+#### • "@property" y encapsulación en python:  
+Para comenzar, la encapsulacion en python cambia bastante, pues a diferencia de java donde los metodos de getter y setter son mas explicitos, en python nos valemos de "@property" para construir el getter y de "@<prop>.setter" para crear el setter, lo cual cambia un poco la sintaxis pero se puede seguir relacionando con lenguajes que ya conozco.  
+#### • Validacion:
+Con el tema de la validacion, encontramos que es una especie de condicion para asegurarnos de que en el set unicamente se ingresen valores validos dependiendo nuestros requerimientos, como una forma de limitar nuestros atributos, su sintaxis es mas parecida a la de java, en esto si son similares, cambiando la forma de invocar los errores unicamente.
